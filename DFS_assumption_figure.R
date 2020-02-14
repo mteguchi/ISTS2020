@@ -6,10 +6,9 @@ rm(list = ls())
 library(ggplot2)
 library(ggridges)
 library(tidyverse)
+source("ISTS2020_funcs.R")
 
 font.size <- 18
-color.JM <- "orangered"
-color.W <- "darkseagreen3"
 
 # bring in the actual results:
 DFS_results <- readRDS(file = "~/R/Indonesia_nesting/RData/time_series_Four_imputation_2019-08-29.rds")
@@ -68,19 +67,23 @@ X.JM.mean.df <- X.JM.mean.df[order(X.JM.mean.df$month),]
 p.JM <- ggplot() + 
   geom_path(data = X.JM.mean.df,
             aes(x = mean, y = month),
-            size = 2) + 
+            size = 2, color = color.JM) + 
   geom_density_ridges(data = X.JM.df,
               aes(y = month, x = x.vals, height = density, group = month),
               stat = "identity",
-              fill = color.JM,
+              fill = fill.color.JM,
               alpha = 0.8) +  
   scale_y_continuous(breaks = c(1:12),
                    labels = c("Jan", "Feb", "Mar", "Apr",
                               "May", "Jun", "Jul", "Aug",
                               "Sep", "Oct", "Nov", "Dec")) + 
+  coord_flip() + #scale_x_reverse() +
   theme(axis.title = element_blank(),
-        axis.text.y = element_text(size = font.size, face = "bold"),
-        axis.text.x = element_blank())
+        axis.text.x = element_text(size = font.size, face = "bold"),
+        axis.text.y = element_blank()) +
+  labs(title = "Beach 1")
+
+p.JM
 
 ggsave(filename = "figures/JM_DFS_assumptions.png",
        device = "png", plot = p.JM, dpi = 600)
@@ -106,19 +109,21 @@ X.W.mean.df <- X.W.mean.df[order(X.W.mean.df$month),]
 p.W <- ggplot() +
   geom_path(data = X.W.mean.df,
             aes(x = mean, y = month),
-            size = 2) + 
+            size = 2, color = color.W) + 
   geom_density_ridges(data = X.W.df,
                       aes(y = month, x = x.vals, height = density, group = month),
                       stat = "identity",
-                      fill = color.W,
+                      fill = fill.color.W,
                       alpha = 0.8)+  
   scale_y_continuous(breaks = c(1:12),
                      labels = c("Jan", "Feb", "Mar", "Apr",
                                 "May", "Jun", "Jul", "Aug",
                                 "Sep", "Oct", "Nov", "Dec")) + 
+  coord_flip() + #scale_x_reverse() +
   theme(axis.title = element_blank(),
-        axis.text.y = element_text(size = font.size, face = "bold"),
-        axis.text.x = element_blank())
+        axis.text.x = element_text(size = font.size, face = "bold"),
+        axis.text.y = element_blank()) +
+  labs(title = "Beach 2")
 
 p.W
 ggsave(filename = "figures/W_DFS_assumptions.png",
