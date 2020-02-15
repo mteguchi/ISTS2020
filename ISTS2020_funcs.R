@@ -4,9 +4,14 @@
 
 color.JM <- "orangered"
 fill.color.JM <- "lightpink"
-color.W <- "dodgerblue4"
+color.W <- "olivedrab4"
 fill.color.W <- "mediumseagreen"
 
+impute.color <- "midnightblue"
+
+period.JM <- 12
+period.W <- 6
+maxN <- 10000
 
 data.extract <- function(location, 
                          year.begin, 
@@ -116,3 +121,19 @@ data.extract <- function(location,
 }
 
 
+
+Girondot_fcn <- function(d, S, K, P, min, max){
+  K <- abs(K)
+  S <- abs(S)
+  S1 <- -S
+  M1 <- (1 + (2 * exp(K) - 1) * exp((1/S1) * (P - d))) ^ (-1/exp(K))
+  M2 <- (1 + (2 * exp(K) - 1) * exp((1/S) * (P - d))) ^ (-1/exp(K))
+  N <- min + (max - min) * (M1 * M2)
+  return(N)
+}
+
+# Extracting posterior samples of deviance or any other variable from jags output:
+extract.samples <- function(varname, zm){
+  dev <- unlist(lapply(zm, FUN = function(x) x[, varname]))
+  return(dev)
+}

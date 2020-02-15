@@ -8,14 +8,16 @@ library(ggridges)
 library(tidyverse)
 source("ISTS2020_funcs.R")
 
-font.size <- 18
+save.fig <- T
+font.size <- 14
 
 # bring in the actual results:
-DFS_results <- readRDS(file = "~/R/Indonesia_nesting/RData/time_series_Four_imputation_2019-08-29.rds")
+#DFS_results <- readRDS(file = "~/R/Indonesia_nesting/RData/time_series_Four_imputation_2019-08-29.rds")
+DFS_results <- readRDS(file = "RData/jags_out_DFS_imputation_2020-02-14.rds")
 DFS_summary <- DFS_results$jm$summary %>% 
   as.data.frame() %>%
   rownames_to_column(var = "variable")
-rm(DFS_results)
+#rm(DFS_results)
 
 #c.JM <- DFS_summary[grep(pattern = "c[/[]1,", x = DFS_summary$variable),] 
 beta.sin.JM <- DFS_summary[grep(pattern = "beta.sin[/[]1[]/]", x = DFS_summary$variable),]
@@ -80,13 +82,14 @@ p.JM <- ggplot() +
   coord_flip() + #scale_x_reverse() +
   theme(axis.title = element_blank(),
         axis.text.x = element_text(size = font.size, face = "bold"),
-        axis.text.y = element_blank()) +
+        axis.text.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.ticks.y = element_blank()) +
   labs(title = "Beach 1")
 
 p.JM
 
-ggsave(filename = "figures/JM_DFS_assumptions.png",
-       device = "png", plot = p.JM, dpi = 600)
 
 #set.seed(1234)
 
@@ -122,12 +125,23 @@ p.W <- ggplot() +
   coord_flip() + #scale_x_reverse() +
   theme(axis.title = element_blank(),
         axis.text.x = element_text(size = font.size, face = "bold"),
-        axis.text.y = element_blank()) +
+        axis.text.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.ticks.y = element_blank()) +
   labs(title = "Beach 2")
 
 p.W
-ggsave(filename = "figures/W_DFS_assumptions.png",
-       device = "png", plot = p.W, dpi = 600)
+
+if (save.fig){
+  ggsave(filename = "figures/JM_DFS_assumptions.png",
+         device = "png", plot = p.JM, dpi = 600,
+         width = 6.29, height = 3.68, units = "in")
+  ggsave(filename = "figures/W_DFS_assumptions.png",
+         device = "png", plot = p.W, dpi = 600,
+         width = 6.29, height = 3.68, units = "in")
+  
+}
 
 # ggplot(data = X.JM.df) + 
 #   geom_vridgeline(aes(x = month, y = sample, width = ..density..),

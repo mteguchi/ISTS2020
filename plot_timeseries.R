@@ -62,7 +62,10 @@ p1 <- ggplot() +
         axis.title.x = element_blank(),
         axis.text.x = element_text(size = 14, face = "bold"),
         axis.text.y = element_blank(),
-        axis.title.y = element_text(size = 14, face = "bold")) + 
+        axis.title.y = element_text(size = 14, face = "bold"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.ticks.y = element_blank()) + 
   labs(y = "Number of nests", title = "Beach 1")
 
 
@@ -94,7 +97,10 @@ p2 <- ggplot() +
         axis.title.x = element_blank(),
         axis.text.x = element_text(size = 14, face = "bold"),
         axis.text.y = element_blank(),
-        axis.title.y = element_text(size = 14, face = "bold")) + 
+        axis.title.y = element_text(size = 14, face = "bold"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.ticks.y = element_blank()) + 
   labs(y = "Number of nests", title = "Beach 2")
 
 
@@ -110,11 +116,17 @@ p3 <- ggplot() +
             aes(x = Month, 
                 y = log(Nests)),
             color = color.JM, size = 3) +
-  scale_x_continuous(breaks = seq(1:12)) +
+  scale_x_continuous(breaks = c(1:12),
+                     labels = c("Jan", "Feb", "Mar", "Apr",
+                                "May", "Jun", "Jul", "Aug",
+                                "Sep", "Oct", "Nov", "Dec")) + 
   theme(axis.title.x = element_blank(),
         axis.text.x = element_text(size = 14, face = "bold"),
         axis.text.y = element_blank(),
-        axis.title.y = element_text(size = 14, face = "bold")) + 
+        axis.title.y = element_text(size = 14, face = "bold"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.ticks.y = element_blank()) + 
   labs(y = "log(Number of nests)", title = "Beach 1")
 
 p4 <- ggplot() + 
@@ -133,7 +145,10 @@ p4 <- ggplot() +
             aes(xmin = xmin, xmax = xmax,
                 ymin = ymin, ymax = ymax),
             fill = fill.color.W, alpha = 0.5) +
-  scale_x_continuous(breaks = seq(1:12)) +
+  scale_x_continuous(breaks = c(1:12),
+                     labels = c("Jan", "Feb", "Mar", "Apr",
+                                "May", "Jun", "Jul", "Aug",
+                                "Sep", "Oct", "Nov", "Dec")) + 
   geom_point(data = data.jags.W$data.1,
              aes(x = Month, 
                  y = log(Nests)),
@@ -141,16 +156,27 @@ p4 <- ggplot() +
   theme(axis.title.x = element_blank(),
         axis.text.x = element_text(size = 14, face = "bold"),
         axis.text.y = element_blank(),
-        axis.title.y = element_text(size = 14, face = "bold")) + 
+        axis.title.y = element_text(size = 14, face = "bold"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        axis.ticks.y = element_blank()) + 
   labs(y = "log(Number of nests)", title = "Beach 2")
 
-# ggsave(p1, filename = "figures/beach1_nests.png", device = "png", dpi = 600)
-# 
-# ggsave(p2, filename = "figures/beach2_nests.png", device = "png", dpi = 600)
+ggsave(p1, filename = "figures/beach1_nests.png", 
+       device = "png", dpi = 600,
+       width = 6.29, height = 3.68, units = "in")
 
-ggsave(p3, filename = "figures/beach1_monthly_nests.png", device = "png", dpi = 600)
+ggsave(p2, filename = "figures/beach2_nests.png", 
+       device = "png", dpi = 600,
+       width = 6.29, height = 3.68, units = "in")
 
-ggsave(p4, filename = "figures/beach2_monthly_nests.png", device = "png", dpi = 600)
+ggsave(p3, filename = "figures/beach1_monthly_nests.png", 
+       device = "png", dpi = 600,
+       width = 6.29, height = 3.68, units = "in")
+
+ggsave(p4, filename = "figures/beach2_monthly_nests.png", 
+       device = "png", dpi = 600,
+       width = 6.29, height = 3.68, units = "in")
 
 
 
