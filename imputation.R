@@ -8,7 +8,7 @@ library(tidyverse)
 
 
 source("ISTS2020_funcs.R")
-save.data <- T
+save.data <- F
 run.date <- Sys.Date()
 
 #Set up the MCMC parameters
